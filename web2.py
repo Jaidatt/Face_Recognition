@@ -1,14 +1,3 @@
-# This is a _very simple_ example of a web service that recognizes faces in uploaded images.
-# Upload an image file and it will check if the image contains a picture of Jaidatt.
-# The result is returned as json. For example:
-#
-# Returns:
-#
-# {
-#  "face_found_in_image": true,
-#  "is_picture_of_jaidatt: true
-# }
-#
 
 import face_recognition
 from flask import Flask, jsonify, request, redirect
@@ -43,8 +32,8 @@ def upload_image():
     # If no valid image file was uploaded, show the file upload form:
     return '''
     <!doctype html>
-    <title>Is this a picture of Jaidatt?</title>
-    <h1>Upload a picture and see if it's a picture of Jaidatt!</h1>
+    <title>Is this a picture of Obama?</title>
+    <h1>Upload a picture and see if it's a picture of Obama!</h1>
     <form method="POST" enctype="multipart/form-data">
       <input type="file" name="file">
       <input type="submit" value="Upload">
@@ -54,8 +43,8 @@ def upload_image():
 
 def detect_faces_in_image(file_stream):
     # Calculate the face encoding of Jaidatt generated with face_recognition.face_encodings(img)
-    jaidatt_image = face_recognition.load_image_file("Jaidatt.jpeg")
-    known_face_encoding = face_recognition.face_encodings(jaidatt_image)[0]
+    obama_image = face_recognition.load_image_file("obama2.jpeg")
+    known_face_encoding = face_recognition.face_encodings(obama_image)[0]
 
 
     # Load the uploaded image file
@@ -68,15 +57,15 @@ def detect_faces_in_image(file_stream):
 
     if len(unknown_face_encodings) > 0:
         face_found = True
-        # See if the first face in the uploaded image matches the known face of Jaidatt
+        # See if the first face in the uploaded image matches the known face of Obama
         match_results = face_recognition.compare_faces([known_face_encoding], unknown_face_encodings[0])
         if match_results[0]:
-            is_Jaidatt = True
+            is_Obama = True
 
     # Return the result as json
     result = {
         "face_found_in_image": face_found,
-        "is_picture_of_Jaidatt": is_Jaidatt
+        "is_picture_of_Obama": is_Obama
     }
     return jsonify(result)
 
